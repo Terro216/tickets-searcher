@@ -1,0 +1,16 @@
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1 0 0;
+    color: var(--text-primary, #1b1f23);
+
+    font-size: 0.875rem;
+    font-family: SF Pro Text;
+    line-height: 1.25rem;
+  }
+}

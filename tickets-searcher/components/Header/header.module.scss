@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--gray-1, #333);
+  position: sticky;
+  .title {
+    display: flex;
+    width: 15.0625rem;
+    height: 2.25rem;
+    flex-direction: column;
+    flex-shrink: 0;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+}

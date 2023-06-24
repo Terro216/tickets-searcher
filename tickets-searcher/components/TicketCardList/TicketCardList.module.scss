@@ -1,0 +1,7 @@
+.ticketList {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: calc(100vw * 3 / 4);
+  gap: 1rem;
+}
