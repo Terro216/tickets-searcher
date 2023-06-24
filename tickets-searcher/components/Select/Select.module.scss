@@ -1,0 +1,44 @@
+.select {
+  display: flex;
+  height: 2.5rem;
+  padding: 0.625rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid var(--border-default, #e1e3e6);
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  user-select: none;
+  .arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+    filter: invert(74%) sepia(19%) saturate(123%) hue-rotate(172deg) brightness(83%) contrast(85%);
+    transition: transform 0.3s;
+    &Flip {
+      transform: rotate(180deg);
+    }
+  }
+  // &:hover {
+  //   .arrow {
+  //     color: var(--text-tertiary, #999fa6);
+  //   }
+  // }
+  &Empty {
+    color: var(--text-tertiary, #999fa6);
+  }
+}
+.selectListItem {
+  display: flex;
+  height: 2.625rem;
+  padding: 0.75rem;
+  align-items: flex-start;
+  gap: 0.5rem;
+  align-self: stretch;
+  border-radius: 8px;
+  color: var(--text-primary, #1b1f23);
+  cursor: pointer;
+}
