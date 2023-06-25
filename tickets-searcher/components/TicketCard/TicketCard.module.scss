@@ -1,0 +1,64 @@
+.ticketCard {
+  display: flex;
+  padding: 1.5rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+  width: 100%;
+  border-radius: 8px;
+  background-color: #fff;
+  .poster {
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex: 1 0 0;
+    align-self: stretch;
+    width: 100%;
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex: 1 0 0;
+      .title {
+      }
+      .genre {
+      }
+    }
+    .counter {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex: 1 0 0;
+      justify-content: flex-end;
+      .plusMinusButton {
+        display: flex;
+        padding: 0.25rem;
+        align-items: flex-start;
+        gap: 0.625rem;
+        border-radius: 4px;
+        background: var(--orange, #f50);
+        &:disabled {
+          background: var(--orange-disabled, #ffa375);
+        }
+        img {
+          filter: invert(99%) sepia(79%) saturate(0%) hue-rotate(190deg) brightness(111%) contrast(101%);
+          width: 0.75rem;
+          height: 0.75rem;
+        }
+      }
+      .number {
+        color: var(--text-primary, #1b1f23);
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.25rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

@@ -9,6 +9,8 @@ import arrowIcon from '@/public/icons/arrow.svg'
 import Image from 'next/image'
 import { Cinema, useGetCinemasQuery } from '@/lib/redux/services/cinemaApi'
 import { SFPro } from '@/app/layout'
+import { Genre, ruGenre } from '@/lib/redux/services/movieApi'
+import { genreTranslator } from '@/utils/consts'
 
 interface SelectProps {
   selectType?: 'genre' | 'cinema'
@@ -68,7 +70,11 @@ export function Select({ selectType }: SelectProps) {
           e.preventDefault()
           toggleSelect((isSelectOpen) => !isSelectOpen)
         }}>
-        <span>{(selectType === 'cinema' ? 'Выберите кинотеатр' : 'Выберите жанр') && selectValue}</span>
+        <span>
+          {selectType === 'cinema'
+            ? 'Выберите кинотеатр' && selectValue
+            : 'Выберите жанр' && genreTranslator[selectValue as Genre]}
+        </span>
         <Image
           className={`${styles.arrow} ${isSelectOpen ? styles.arrowFlip : ''}`}
           src={arrowIcon}
@@ -98,29 +104,28 @@ const CinemaList = ({ setCinema }: CinemaListProps) => {
         : error
         ? 'error'
         : data &&
-          data.map((cinema) => (
+          ([{ id: 'resetter', name: '', movieIds: [] }] as Cinema[]).concat(data).map((cinema) => (
             <div
               className={`${styles.selectListItem} ${SFPro.className}`}
               key={cinema.id}
               onClick={() => setCinema(cinema)}>
-              {cinema.name}
+              {cinema.name === '' ? 'Не выбран' : cinema.name}
             </div>
           ))}
     </>
   )
 }
-type Genre = 'ужасы' | 'ĸомедия' | 'фэнтези' | 'боевиĸ'
+
 interface GenreListProps {
   setGenre: (genre: Genre) => void
 }
-const genres: Genre[] = ['ужасы', 'ĸомедия', 'фэнтези', 'боевиĸ']
 const GenreList = ({ setGenre }: GenreListProps) => {
-  return genres.map((genre, i) => (
+  return Object.entries(genreTranslator).map(([enGenre, ruGenre], i) => (
     <div
       className={`${styles.selectListItem} ${SFPro.className}`}
-      key={genre + i}
-      onClick={() => setGenre(genre)}>
-      {genre}
+      key={enGenre + i}
+      onClick={() => setGenre(enGenre)}>
+      {ruGenre}
     </div>
   ))
 }

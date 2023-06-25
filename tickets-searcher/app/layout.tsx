@@ -30,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <Footer />
           <div className='select-popup' id='select-popup'></div>
+          <div className='modal' id='modal'></div>
         </Providers>
       </body>
     </html>

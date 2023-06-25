@@ -1,11 +1,13 @@
 .header {
   display: flex;
+  position: sticky;
+  top: 0;
   width: 100%;
   padding: 1.5rem 2rem;
   justify-content: space-between;
   align-items: center;
   background: var(--gray-1, #333);
-  position: sticky;
+  z-index: var(--header-z-index);
   .title {
     display: flex;
     width: 15.0625rem;

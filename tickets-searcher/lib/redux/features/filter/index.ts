@@ -1,18 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-type genreList = any[]
-type cinemasList = any[]
+import { Cinema } from '../../services/cinemaApi'
+import { Genre } from '../../services/movieApi'
 
 interface State {
   name: string
-  genre: string
-  cinema: string
+  genre: Genre
+  cinema: Cinema
 }
 
 const initialState: State = {
   name: '',
   genre: '',
-  cinema: '',
+  cinema: { id: '', name: '', movieIds: [] },
 }
 
 const filterSlice = createSlice({

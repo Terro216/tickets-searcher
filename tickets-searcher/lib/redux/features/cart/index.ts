@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 interface State {
   films: {
-    [filmId: number]: number
+    [filmId: string]: number
   }
   counter: number
 }
@@ -28,12 +28,14 @@ const cartSlice = createSlice({
         state.films[payload] = 0
       } else {
         state.films[payload] -= 1
+        if (state.films[payload] === 0) delete state.films[payload]
       }
       state.counter -= 1
     },
     removeFilm: (state, { payload }) => {
       const currentFilmTickets = state.films[payload] || 0
       state.films[payload] = 0
+      delete state.films[payload]
       state.counter -= currentFilmTickets
     },
     reset: () => initialState,
