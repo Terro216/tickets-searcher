@@ -108,7 +108,7 @@ const CinemaList = ({ setCinema }: CinemaListProps) => {
   return (
     <>
       {isLoading ? (
-        <Loader />
+        <Loader size={'small'} />
       ) : error ? (
         'Возникла ошибка! Пожалуйста, обновите страницу'
       ) : (

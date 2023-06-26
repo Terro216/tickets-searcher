@@ -4,6 +4,7 @@ import styles from './Input.module.scss'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { selectNameFilter } from '@/lib/redux/features/filter/selector'
 import { filterActions } from '@/lib/redux/features/filter'
+import { useDebounce } from '@/utils/hooks'
 
 export function Input() {
   const dispatch = useAppDispatch()

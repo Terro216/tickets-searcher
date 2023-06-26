@@ -1,9 +1,9 @@
 import styles from './Loader.module.scss'
 
-export function MyLoader() {
+export function MyLoader({ size }: { size?: 'small' }) {
   return (
-    <div className={styles.loaderWrapper}>
-      <div className={styles.loader}></div>
+    <div className={`${styles.loaderWrapper}`}>
+      <div className={`${styles.loader} ${size === 'small' ? styles.small : ''}`}></div>
     </div>
   )
 }
