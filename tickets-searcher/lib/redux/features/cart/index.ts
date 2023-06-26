@@ -20,8 +20,10 @@ const cartSlice = createSlice({
       if (!state.films[payload]) {
         state.films[payload] = 0
       }
-      state.films[payload] += 1
-      state.counter += 1
+      if (state.films[payload] < 30) {
+        state.films[payload] += 1
+        state.counter += 1
+      }
     },
     removeTicket: (state, { payload }) => {
       if (!state.films[payload]) {

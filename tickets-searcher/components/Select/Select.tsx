@@ -1,16 +1,17 @@
 'use client'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './Select.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCinemaFilter, selectGenreFilter, selectNameFilter } from '@/lib/redux/features/filter/selector'
+import { selectCinemaFilter, selectGenreFilter } from '@/lib/redux/features/filter/selector'
 import { filterActions } from '@/lib/redux/features/filter'
 import { createPortal } from 'react-dom'
 import arrowIcon from '@/public/icons/arrow.svg'
 import Image from 'next/image'
 import { Cinema, useGetCinemasQuery } from '@/lib/redux/services/cinemaApi'
 import { SFPro } from '@/app/layout'
-import { Genre, ruGenre } from '@/lib/redux/services/movieApi'
+import { Genre } from '@/lib/redux/services/movieApi'
 import { genreTranslator } from '@/utils/consts'
+import modalStyles from '@/app/popups.module.scss'
 
 interface SelectProps {
   selectType?: 'genre' | 'cinema'
@@ -50,17 +51,28 @@ export function Select({ selectType }: SelectProps) {
         popup.style.top = selectElBounds.top + selectElBounds.height + 'px' //window.scrollY +
         popup.style.left = selectElBounds.x + 'px'
         popup.style.width = selectElBounds.width + 'px'
+        popup.classList.add(modalStyles['select-popup-visible'])
         setSelectPopupEl(popup)
       } else {
-        popup.style.width = '0px'
+        setSelectPopupEl(null)
+        popup.removeAttribute('style')
+        popup.classList.remove(modalStyles['select-popup-visible'])
       }
     } else {
       console.error('select-popup not found')
     }
   }, [isSelectOpen])
 
-  //! FIX bug with two selects
+  const selectDisplayedValue =
+    selectType === 'cinema'
+      ? selectValue === ''
+        ? 'Выберите кинотеатр'
+        : selectValue
+      : selectValue === ''
+      ? 'Выберите жанр'
+      : genreTranslator[selectValue as Genre]
 
+  //! FIX bug with two selects
   return (
     <>
       <div
@@ -70,11 +82,7 @@ export function Select({ selectType }: SelectProps) {
           e.preventDefault()
           toggleSelect((isSelectOpen) => !isSelectOpen)
         }}>
-        <span>
-          {selectType === 'cinema'
-            ? 'Выберите кинотеатр' && selectValue
-            : 'Выберите жанр' && genreTranslator[selectValue as Genre]}
-        </span>
+        <span>{selectDisplayedValue}</span>
         <Image
           className={`${styles.arrow} ${isSelectOpen ? styles.arrowFlip : ''}`}
           src={arrowIcon}
@@ -84,7 +92,7 @@ export function Select({ selectType }: SelectProps) {
       {isSelectOpen &&
         selectPopupEl &&
         (selectType === 'cinema'
-          ? createPortal(<CinemaList setCinema={setCinema} />, selectPopupEl, 'cinema')
+          ? createPortal(<CinemaList setCinema={setCinema} />, document.body, 'cinema')
           : createPortal(<GenreList setGenre={setGenre} />, selectPopupEl, 'genre'))}
     </>
   )
@@ -125,7 +133,7 @@ const GenreList = ({ setGenre }: GenreListProps) => {
       className={`${styles.selectListItem} ${SFPro.className}`}
       key={enGenre + i}
       onClick={() => setGenre(enGenre)}>
-      {ruGenre}
+      {ruGenre === '' ? 'Не выбран' : ruGenre}
     </div>
   ))
 }

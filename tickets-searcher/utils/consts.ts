@@ -1,7 +1,7 @@
 import { Genre, ruGenre } from '@/lib/redux/services/movieApi'
 
-interface GenreTranslator {
-  [genre: Genre]: ruGenre
+type GenreTranslator = {
+  [Property in Genre]: ruGenre
 }
 
 export let genreTranslator: GenreTranslator = {

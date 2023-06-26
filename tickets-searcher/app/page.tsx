@@ -2,11 +2,15 @@ import styles from './page.module.scss'
 import Filters from '@/components/Filters'
 import TicketCardList from '@/components/TicketCardList'
 
+export const metadata = {
+  title: 'Главная страница',
+}
+
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <section className={styles.homePageWrapper}>
       <Filters />
-      <TicketCardList />
-    </main>
+      <TicketCardList type='home' />
+    </section>
   )
 }

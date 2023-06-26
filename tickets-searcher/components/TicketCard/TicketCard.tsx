@@ -1,53 +1,43 @@
-import { Movie } from '@/lib/redux/services/movieApi'
+import type { Movie } from '@/lib/redux/services/movieApi'
 import styles from './TicketCard.module.scss'
 import Image from 'next/image'
-import plusIcon from '@/public/icons/plus.svg'
-import minusIcon from '@/public/icons/minus.svg'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectTicketsByFilmId } from '@/lib/redux/features/cart/selector'
+import closeIcon from '@/public/icons/close.svg'
+import { useDispatch } from 'react-redux'
 import { cartActions } from '@/lib/redux'
 import { genreTranslator } from '@/utils/consts'
+import Link from 'next/link'
+import TicketCounter from '../TicketCounter'
 
-type TicketCardProps = Pick<Movie, 'id' | 'posterUrl' | 'genre' | 'title'>
+type TicketCardProps = Pick<Movie, 'id' | 'posterUrl' | 'genre' | 'title'> & {
+  type: 'cart' | 'home'
+}
 
-export function TicketCard({ posterUrl, genre, title, id }: TicketCardProps) {
+export function TicketCard({ posterUrl, genre, title, id, type }: TicketCardProps) {
   return (
     <article className={styles.ticketCard}>
       <Image className={styles.poster} width={100} height={120} src={posterUrl} alt={title} />
       <div className={styles.content}>
         <div className={styles.info}>
-          <h3 className={styles.title}>{title}</h3>
+          <Link href={`film/${id}`}>
+            <h3 className={styles.title}>{title}</h3>
+          </Link>
           <i className={styles.genre}>{genreTranslator[genre]}</i>
         </div>
-        <Counter title={title} id={id} />
+        <TicketCounter title={title} id={id} />
+        {type === 'cart' && <TicketRemover title={title} id={id} />}
       </div>
     </article>
   )
 }
 
-const Counter = ({ title, id }: Pick<Movie, 'title' | 'id'>) => {
-  const ticketCount = useSelector((state) => selectTicketsByFilmId(state, id))
+const TicketRemover = ({ title, id }: Pick<Movie, 'title' | 'id'>) => {
   const dispatch = useDispatch()
-  const changeTicketCount = (type: 'remove' | 'add') => {
-    if (type === 'add') {
-      dispatch(cartActions.addTicket(id))
-    } else {
-      dispatch(cartActions.removeTicket(id))
-    }
+  const removeTicket = () => {
+    dispatch(cartActions.removeFilm(id))
   }
-
   return (
-    <div className={styles.counter}>
-      <button
-        className={styles.plusMinusButton}
-        disabled={ticketCount === 0}
-        onClick={() => changeTicketCount('remove')}>
-        <Image src={minusIcon} alt={`Убрать билет на фильм ${title}`} />
-      </button>
-      <span className={styles.number}>{ticketCount}</span>
-      <button className={styles.plusMinusButton} onClick={() => changeTicketCount('add')}>
-        <Image src={plusIcon} alt={`Добавить билет на фильм ${title}`} />
-      </button>
-    </div>
+    <button onClick={removeTicket} className={styles.removeTicketButton}>
+      <Image src={closeIcon} alt={`Убрать все билеты на фильм ${title}`} />
+    </button>
   )
 }

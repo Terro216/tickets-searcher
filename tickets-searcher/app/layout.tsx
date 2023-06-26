@@ -1,4 +1,6 @@
 import './globals.scss'
+import modalStyles from './popups.module.scss'
+
 import { Roboto } from 'next/font/google'
 import localFont from 'next/font/local'
 
@@ -27,10 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={roboto.className}>
         <Providers>
           <Header />
-          {children}
+          <main>{children}</main>
           <Footer />
-          <div className='select-popup' id='select-popup'></div>
-          <div className='modal' id='modal'></div>
+          <div className={modalStyles['select-popup']} id='select-popup'></div>
+          <div className={modalStyles['modal']} id='modal'></div>
         </Providers>
       </body>
     </html>

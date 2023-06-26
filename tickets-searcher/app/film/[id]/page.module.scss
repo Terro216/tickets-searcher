@@ -1,0 +1,129 @@
+.filmWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  .filmPageInfo {
+    display: flex;
+    width: 100%;
+    height: 34.5625rem;
+    padding: 1.5rem;
+    align-items: flex-start;
+    gap: 2rem;
+    border-radius: 8px;
+    background: #fff;
+    .poster {
+      flex-shrink: 0;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      flex: 1 0 0;
+      .titleWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-self: stretch;
+        .title {
+          color: var(--text-primary, #1b1f23);
+          font-size: 2rem;
+          font-weight: 600;
+          line-height: 2rem;
+        }
+      }
+      .shortInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        .row {
+          display: flex;
+          gap: 0.5rem;
+          justify-content: center;
+          align-items: center;
+          .miniTitle {
+            color: var(--text-primary, #1b1f23);
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.5rem;
+          }
+        }
+      }
+      .description {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        align-self: stretch;
+        &Title {
+          color: var(--text-primary, #1b1f23);
+          font-size: 1.25rem;
+          font-weight: 600;
+          line-height: 2rem;
+        }
+        &Content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1 0 0;
+          color: var(--text-primary, #1b1f23);
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+      }
+    }
+  }
+  .reviewWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    .review {
+      display: flex;
+      padding: 1.5rem;
+      align-items: flex-start;
+      gap: 2rem;
+      flex: 1 0 0;
+      border-radius: 8px;
+      background: #fff;
+      .profilePicture {
+        display: flex;
+        width: 6.25rem;
+        height: 6.25rem;
+        padding: 0.625rem;
+        justify-content: center;
+        align-items: center;
+        gap: 0.625rem;
+        border-radius: 8px;
+        background: var(--gray-5, #e0e0e0);
+      }
+      .reviewContent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+        flex: 1 0 0;
+        .reviewHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          align-self: stretch;
+        }
+        .reviewText {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1 0 0;
+          color: var(--text-primary, #1b1f23);
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+      }
+    }
+  }
+}
