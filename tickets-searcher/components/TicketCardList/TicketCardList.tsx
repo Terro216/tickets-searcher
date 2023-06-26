@@ -32,7 +32,7 @@ export function TicketCardList({ type }: TicketCardListProps) {
   const filteredFilms = useMemo(() => {
     return (cinemaMovies || allMovies)?.filter((movie) => {
       if (filterName) {
-        if (!movie.title.toLocaleLowerCase().startsWith(filterName.toLocaleLowerCase())) return false
+        if (!movie.title.toLocaleLowerCase().includes(filterName.toLocaleLowerCase())) return false
       }
       if (filterGenre) {
         return movie.genre === filterGenre

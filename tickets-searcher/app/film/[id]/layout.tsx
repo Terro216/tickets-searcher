@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Фильм',
+  title: 'Страница фильма',
   description: '',
 }
 
