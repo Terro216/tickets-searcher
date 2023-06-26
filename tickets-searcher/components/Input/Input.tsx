@@ -1,13 +1,13 @@
 'use client'
 import { ChangeEvent, ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useState } from 'react'
 import styles from './Input.module.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { selectNameFilter } from '@/lib/redux/features/filter/selector'
 import { filterActions } from '@/lib/redux/features/filter'
 
 export function Input() {
-  const dispatch = useDispatch()
-  const inputValue = useSelector((state) => selectNameFilter(state))
+  const dispatch = useAppDispatch()
+  const inputValue = useAppSelector((state) => selectNameFilter(state))
   const setInputValue = (event: ChangeEvent<HTMLInputElement>) =>
     dispatch(filterActions.setName(event.target.value))
 

@@ -19,3 +19,20 @@
   height: auto;
   background-color: white;
 }
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+  z-index: var(--modal-z-index, calc(var(--popup-z-index) + 1));
+}
+.modal-visible {
+  display: flex;
+}

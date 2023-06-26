@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 interface State {
   films: {
@@ -16,7 +16,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addTicket: (state, { payload }) => {
+    addTicket: (state, { payload }: PayloadAction<string>) => {
       if (!state.films[payload]) {
         state.films[payload] = 0
       }
@@ -25,7 +25,7 @@ const cartSlice = createSlice({
         state.counter += 1
       }
     },
-    removeTicket: (state, { payload }) => {
+    removeTicket: (state, { payload }: PayloadAction<string>) => {
       if (!state.films[payload]) {
         state.films[payload] = 0
       } else {
@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       }
       state.counter -= 1
     },
-    removeFilm: (state, { payload }) => {
+    removeFilm: (state, { payload }: PayloadAction<string>) => {
       const currentFilmTickets = state.films[payload] || 0
       state.films[payload] = 0
       delete state.films[payload]

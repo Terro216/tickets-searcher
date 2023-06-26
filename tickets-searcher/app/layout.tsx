@@ -31,7 +31,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main>{children}</main>
           <Footer />
-          <div className={modalStyles['select-popup']} id='select-popup'></div>
+          <div className={modalStyles['select-popup']} id='select-popup-cinema'></div>
+          <div className={modalStyles['select-popup']} id='select-popup-genre'></div>
           <div className={modalStyles['modal']} id='modal'></div>
         </Providers>
       </body>

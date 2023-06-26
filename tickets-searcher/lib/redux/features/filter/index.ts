@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Cinema } from '../../services/cinemaApi'
 import { Genre } from '../../services/movieApi'
 
@@ -18,13 +18,13 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    setName: (state, { payload }) => {
+    setName: (state, { payload }: PayloadAction<string>) => {
       state.name = payload
     },
-    setGenre: (state, { payload }) => {
+    setGenre: (state, { payload }: PayloadAction<Genre>) => {
       state.genre = payload
     },
-    setCinema: (state, { payload }) => {
+    setCinema: (state, { payload }: PayloadAction<Cinema>) => {
       state.cinema = payload
     },
     reset: () => initialState,

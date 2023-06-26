@@ -2,12 +2,12 @@
 
 import { useGetAllMoviesQuery, useGetMoviesByCinemaQuery } from '@/lib/redux/services/movieApi'
 import styles from './TicketCardList.module.scss'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/lib/redux/hooks'
 import { selectCinemaFilter, selectGenreFilter, selectNameFilter } from '@/lib/redux/features/filter/selector'
 import { useMemo } from 'react'
 import TicketCard from '../TicketCard'
-import { genreTranslator } from '@/utils/consts'
 import { selectCartFilms } from '@/lib/redux/features/cart/selector'
+import Loader from '../Loader'
 
 interface TicketCardListProps {
   type: 'cart' | 'home'
@@ -15,15 +15,15 @@ interface TicketCardListProps {
 
 export function TicketCardList({ type }: TicketCardListProps) {
   const { data: allMovies, isLoading: isAllMoviesLoading, error: allMoviesError } = useGetAllMoviesQuery()
-  const cinema = useSelector((state) => selectCinemaFilter(state))
-  const filterName = useSelector((state) => selectNameFilter(state))
-  const filterGenre = useSelector((state) => selectGenreFilter(state))
+  const cinema = useAppSelector((state) => selectCinemaFilter(state))
+  const filterName = useAppSelector((state) => selectNameFilter(state))
+  const filterGenre = useAppSelector((state) => selectGenreFilter(state))
   const {
     data: cinemaMovies,
     isLoading: isCinemaMoviesLoading,
     error: cinemaMoviesError,
-  } = useGetMoviesByCinemaQuery(cinema?.id)
-  const filmsInCart = Object.keys(useSelector((state) => selectCartFilms(state)))
+  } = useGetMoviesByCinemaQuery(cinema?.id, { refetchOnMountOrArgChange: true })
+  const filmsInCart = Object.keys(useAppSelector((state) => selectCartFilms(state)))
 
   const cartFilms = allMovies?.filter((movie) => {
     return filmsInCart.includes(movie.id)
@@ -43,10 +43,10 @@ export function TicketCardList({ type }: TicketCardListProps) {
 
   return (
     <section className={`${type === 'home' ? styles.ticketList : styles.cartTicketList}`}>
-      {isAllMoviesLoading || (cinema && isCinemaMoviesLoading) ? (
-        'loading...'
-      ) : allMoviesError || (cinema && cinemaMoviesError) ? (
-        'error'
+      {isAllMoviesLoading || isCinemaMoviesLoading ? (
+        <Loader />
+      ) : allMoviesError || cinemaMoviesError ? (
+        'Возникла ошибка! Пожалуйста, обновите страницу'
       ) : type === 'home' ? (
         filteredFilms && filteredFilms.length !== 0 ? (
           filteredFilms.map((film) => (
@@ -60,7 +60,7 @@ export function TicketCardList({ type }: TicketCardListProps) {
             />
           ))
         ) : (
-          <div>По данному запросу нет билетов :(</div>
+          <div className={styles.empty}>По данному запросу не найдено ни одного билета :(</div>
         )
       ) : cartFilms && cartFilms.length !== 0 ? (
         cartFilms.map((film) => (
@@ -74,7 +74,7 @@ export function TicketCardList({ type }: TicketCardListProps) {
           />
         ))
       ) : (
-        <div>По данному запросу нет билетов :(</div>
+        <div className={styles.emptyCart}>Корзина пуста :(</div>
       )}
     </section>
   )

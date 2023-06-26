@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import styles from './Select.module.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { selectCinemaFilter, selectGenreFilter } from '@/lib/redux/features/filter/selector'
 import { filterActions } from '@/lib/redux/features/filter'
 import { createPortal } from 'react-dom'
@@ -12,19 +12,20 @@ import { SFPro } from '@/app/layout'
 import { Genre } from '@/lib/redux/services/movieApi'
 import { genreTranslator } from '@/utils/consts'
 import modalStyles from '@/app/popups.module.scss'
+import Loader from '../Loader'
 
 interface SelectProps {
   selectType?: 'genre' | 'cinema'
 }
 
 export function Select({ selectType }: SelectProps) {
-  const dispatch = useDispatch()
-  const selectValue = useSelector((state) =>
+  const dispatch = useAppDispatch()
+  const selectValue = useAppSelector((state) =>
     selectType === 'cinema' ? selectCinemaFilter(state).name : selectGenreFilter(state)
   )
 
   const [isSelectOpen, toggleSelect] = useState(false)
-  const [selectPopupEl, setSelectPopupEl] = useState<HTMLElement | null>()
+  const [selectPopupEl, setSelectPopupEl] = useState<HTMLElement | null>(null)
 
   const setCinema = (cinema: Cinema) => {
     dispatch(filterActions.setCinema(cinema))
@@ -38,7 +39,7 @@ export function Select({ selectType }: SelectProps) {
   const selectRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const popup = document.getElementById('select-popup')
+    const popup = document.getElementById(`select-popup-${selectType}`)
     if (popup) {
       popup.innerHTML = ''
       if (isSelectOpen) {
@@ -61,7 +62,7 @@ export function Select({ selectType }: SelectProps) {
     } else {
       console.error('select-popup not found')
     }
-  }, [isSelectOpen])
+  }, [selectType, isSelectOpen])
 
   const selectDisplayedValue =
     selectType === 'cinema'
@@ -72,7 +73,6 @@ export function Select({ selectType }: SelectProps) {
       ? 'Выберите жанр'
       : genreTranslator[selectValue as Genre]
 
-  //! FIX bug with two selects
   return (
     <>
       <div
@@ -92,7 +92,7 @@ export function Select({ selectType }: SelectProps) {
       {isSelectOpen &&
         selectPopupEl &&
         (selectType === 'cinema'
-          ? createPortal(<CinemaList setCinema={setCinema} />, document.body, 'cinema')
+          ? createPortal(<CinemaList setCinema={setCinema} />, selectPopupEl, 'cinema')
           : createPortal(<GenreList setGenre={setGenre} />, selectPopupEl, 'genre'))}
     </>
   )
@@ -107,19 +107,21 @@ const CinemaList = ({ setCinema }: CinemaListProps) => {
 
   return (
     <>
-      {isLoading
-        ? 'loading...'
-        : error
-        ? 'error'
-        : data &&
-          ([{ id: 'resetter', name: '', movieIds: [] }] as Cinema[]).concat(data).map((cinema) => (
-            <div
-              className={`${styles.selectListItem} ${SFPro.className}`}
-              key={cinema.id}
-              onClick={() => setCinema(cinema)}>
-              {cinema.name === '' ? 'Не выбран' : cinema.name}
-            </div>
-          ))}
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        'Возникла ошибка! Пожалуйста, обновите страницу'
+      ) : (
+        data &&
+        ([{ id: 'resetter', name: '', movieIds: [] }] as Cinema[]).concat(data).map((cinema) => (
+          <div
+            className={`${styles.selectListItem} ${SFPro.className}`}
+            key={cinema.id}
+            onClick={() => setCinema(cinema)}>
+            {cinema.name === '' ? 'Не выбран' : cinema.name}
+          </div>
+        ))
+      )}
     </>
   )
 }
@@ -132,7 +134,7 @@ const GenreList = ({ setGenre }: GenreListProps) => {
     <div
       className={`${styles.selectListItem} ${SFPro.className}`}
       key={enGenre + i}
-      onClick={() => setGenre(enGenre)}>
+      onClick={() => setGenre(enGenre as Genre)}>
       {ruGenre === '' ? 'Не выбран' : ruGenre}
     </div>
   ))

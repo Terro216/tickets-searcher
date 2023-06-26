@@ -5,9 +5,9 @@ type GenreTranslator = {
 }
 
 export let genreTranslator: GenreTranslator = {
+  '': '',
   'horror': 'Хоррор',
   'action': 'Боевик',
   'comedy': 'Комедия',
   'fantasy': 'Фэнтези',
-  '': '',
 }

@@ -21,7 +21,7 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
     getAllMovies: builder.query<Movie[], void>({ query: () => 'movies' }),
     getMovieById: builder.query<Movie, string>({ query: (movieId) => `movie?movieId=${movieId}` }),
-    getMoviesByCinema: builder.query<Movie[], string>({ query: (cinemaId) => `movie?cinemaId=${cinemaId}` }),
+    getMoviesByCinema: builder.query<Movie[], string>({ query: (cinemaId) => `movies?cinemaId=${cinemaId}` }),
   }),
 })
 

@@ -3,13 +3,13 @@ import styles from './TicketCounter.module.scss'
 import Image from 'next/image'
 import plusIcon from '@/public/icons/plus.svg'
 import minusIcon from '@/public/icons/minus.svg'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { selectTicketsByFilmId } from '@/lib/redux/features/cart/selector'
 import { cartActions } from '@/lib/redux'
 
 export function TicketCounter({ title, id }: Pick<Movie, 'title' | 'id'>) {
-  const ticketCount = useSelector((state) => selectTicketsByFilmId(state, id))
-  const dispatch = useDispatch()
+  const ticketCount = useAppSelector((state) => selectTicketsByFilmId(state, id))
+  const dispatch = useAppDispatch()
   const changeTicketCount = (type: 'remove' | 'add') => {
     if (type === 'add') {
       dispatch(cartActions.addTicket(id))
